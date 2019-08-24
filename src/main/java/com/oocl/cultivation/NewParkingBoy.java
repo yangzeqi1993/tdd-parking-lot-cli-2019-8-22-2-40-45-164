@@ -4,16 +4,18 @@ import java.util.List;
 
 public class NewParkingBoy {
 
-    private List<ParkingLot> parkingLots;
-    private ParkingLot chooseParkingLot;
-    private String lastErrorMessage;
+    protected List<ParkingLot> parkingLots;
+    protected ParkingLot chooseParkingLot;
+    protected String lastErrorMessage;
 
     public NewParkingBoy(List<ParkingLot> parkingLots) {this.parkingLots = parkingLots; }
 
     public ParkingTicket park(Car car) {
         if (isExistParkingSpace()){
             lastErrorMessage = null;
-            return chooseParkingLot().park(car);
+            ParkingTicket ticket = chooseParkingLot.park(car);
+            ticket.setParkingLot(chooseParkingLot);
+            return ticket;
         }else {
             lastErrorMessage = "The parking lot is full.";
             return null;
@@ -27,8 +29,8 @@ public class NewParkingBoy {
                 lastErrorMessage = "Unrecognized parking ticket.";
                 return null;
             }else {
-                lastErrorMessage = "";
-                return this.chooseParkingLot.fetch(ticket);
+                chooseParkingLot = ticket.getParkingLot();
+                return chooseParkingLot.fetch(ticket);
             }
         }else {
             lastErrorMessage = "Please provide your parking ticket.";
@@ -42,17 +44,17 @@ public class NewParkingBoy {
     }
 
     public ParkingLot chooseParkingLot(){
+        chooseParkingLot = parkingLots.get(0);
         for (ParkingLot parkingLot : parkingLots){
             if (parkingLot.isExistCapacity()){
                 chooseParkingLot = parkingLot;
-                return parkingLot;
             }
         }
-        return null;
+        return chooseParkingLot;
     }
 
     public boolean isExistParkingSpace(){
-        return chooseParkingLot() != null;
+        return chooseParkingLot().getAvailableParkingPosition() > 0;
     }
 
     public boolean isExistCar(ParkingTicket ticket){

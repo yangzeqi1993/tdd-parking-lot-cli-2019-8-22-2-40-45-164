@@ -202,8 +202,8 @@ class SuperSmartParkingBoyFacts {
         List<ParkingLot> parkingLots =  Arrays.asList(parkingLot_1, parkingLot_2);
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLots);
 
-        ParkingTicket ticket = client.parkBySuperSmartParkingBoy(superSmartParkingBoy);
-        Car fetched = client.fetchBySuperSmartParkingBoy(superSmartParkingBoy,ticket);
+        ParkingTicket ticket = client.park(superSmartParkingBoy);
+        Car fetched = client.fetch(superSmartParkingBoy,ticket);
 
         assertSame(fetched, car);
     }
@@ -221,11 +221,11 @@ class SuperSmartParkingBoyFacts {
         List<ParkingLot> parkingLots =  Arrays.asList(parkingLot_1, parkingLot_2);
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLots);
 
-        ParkingTicket ticket_1 = client_1.parkBySuperSmartParkingBoy(superSmartParkingBoy);
-        Car fetched_1 = client_1.fetchBySuperSmartParkingBoy(superSmartParkingBoy,ticket_1);
+        ParkingTicket ticket_1 = client_1.park(superSmartParkingBoy);
+        Car fetched_1 = client_1.fetch(superSmartParkingBoy,ticket_1);
 
-        ParkingTicket ticket_2 = client_2.parkBySuperSmartParkingBoy(superSmartParkingBoy);
-        Car fetched_2 = client_2.fetchBySuperSmartParkingBoy(superSmartParkingBoy,ticket_2);
+        ParkingTicket ticket_2 = client_2.park(superSmartParkingBoy);
+        Car fetched_2 = client_2.fetch(superSmartParkingBoy,ticket_2);
 
         assertSame(fetched_1, car_1);
         assertSame(fetched_2, car_2);
@@ -242,10 +242,10 @@ class SuperSmartParkingBoyFacts {
 
         ParkingTicket wrongTicket = new ParkingTicket();
 
-        ParkingTicket ticket = client.parkBySuperSmartParkingBoy(superSmartParkingBoy);
+        ParkingTicket ticket = client.park(superSmartParkingBoy);
 
-        assertNull(client.fetchBySuperSmartParkingBoy(superSmartParkingBoy,wrongTicket));
-        assertSame(car, client.fetchBySuperSmartParkingBoy(superSmartParkingBoy,ticket));
+        assertNull(client.fetch(superSmartParkingBoy,wrongTicket));
+        assertSame(car, client.fetch(superSmartParkingBoy,ticket));
     }
 
     @Test
@@ -258,7 +258,7 @@ class SuperSmartParkingBoyFacts {
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLots);
         ParkingTicket wrongTicket = new ParkingTicket();
 
-        client.fetchBySuperSmartParkingBoy(superSmartParkingBoy,wrongTicket);
+        client.fetch(superSmartParkingBoy,wrongTicket);
         String message = client.getLastErrorMessage();
 
         assertEquals("Unrecognized parking ticket.", message);
@@ -273,7 +273,7 @@ class SuperSmartParkingBoyFacts {
         List<ParkingLot> parkingLots =  Arrays.asList(parkingLot_1, parkingLot_2);
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLots);
 
-        client.fetchBySuperSmartParkingBoy(superSmartParkingBoy,null);
+        client.fetch(superSmartParkingBoy,null);
         String message = client.getLastErrorMessage();
 
         assertEquals("Please provide your parking ticket.", message);
@@ -288,12 +288,12 @@ class SuperSmartParkingBoyFacts {
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLots);
 
         Client client = new Client(new Car());
-        client.parkBySuperSmartParkingBoy(superSmartParkingBoy);
+        client.park(superSmartParkingBoy);
         client.setCar(new Car());
-        client.parkBySuperSmartParkingBoy(superSmartParkingBoy);
+        client.park(superSmartParkingBoy);
         client.setCar(new Car());
 
-        assertNull(client.parkBySuperSmartParkingBoy(superSmartParkingBoy));
+        assertNull(client.park(superSmartParkingBoy));
     }
 
     @Test
@@ -305,11 +305,11 @@ class SuperSmartParkingBoyFacts {
         SuperSmartParkingBoy superSmartParkingBoy = new SuperSmartParkingBoy(parkingLots);
 
         Client client = new Client(new Car());
-        client.parkBySuperSmartParkingBoy(superSmartParkingBoy);
+        client.park(superSmartParkingBoy);
         client.setCar(new Car());
-        client.parkBySuperSmartParkingBoy(superSmartParkingBoy);
+        client.park(superSmartParkingBoy);
         client.setCar(new Car());
-        client.parkBySuperSmartParkingBoy(superSmartParkingBoy);
+        client.park(superSmartParkingBoy);
 
         assertEquals("The parking lot is full.", client.getLastErrorMessage());
     }
@@ -327,7 +327,7 @@ class SuperSmartParkingBoyFacts {
 
         Client client = new Client(new Car());
         assertEquals(parkingLot_3,superSmartParkingBoy.chooseParkingLot());
-        client.parkBySuperSmartParkingBoy(superSmartParkingBoy);
+        client.park(superSmartParkingBoy);
         assertEquals(2, parkingLot_3.getAvailableParkingPosition());
     }
 
@@ -342,12 +342,12 @@ class SuperSmartParkingBoyFacts {
 
         Client client = new Client(new Car());
         assertEquals(parkingLot_2,superSmartParkingBoy.chooseParkingLot());
-        client.parkBySuperSmartParkingBoy(superSmartParkingBoy);
+        client.park(superSmartParkingBoy);
         assertEquals(2, parkingLot_2.getAvailableParkingPosition());
 
         client.setCar(new Car());
         assertEquals(parkingLot_1,superSmartParkingBoy.chooseParkingLot());
-        client.parkBySuperSmartParkingBoy(superSmartParkingBoy);
+        client.park(superSmartParkingBoy);
         assertEquals(0, parkingLot_1.getAvailableParkingPosition());
 
 

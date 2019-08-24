@@ -12,55 +12,68 @@ public class Client {
         this.car = car;
     }
 
+    public String getLastErrorMessage() {
+        return lastErrorMessage;
+    }
+
+    // by parkingBoy
     public ParkingTicket park(ParkingBoy parkingBoy) {
         ParkingTicket ticket = parkingBoy.park(car);
         lastErrorMessage = parkingBoy.getLastErrorMessage();
         return ticket;
     }
-
-    public ParkingTicket parkByNewParkingBoy(NewParkingBoy newParkingBoy) {
-        ParkingTicket ticket = newParkingBoy.park(car);
-        lastErrorMessage = newParkingBoy.getLastErrorMessage();
-        return ticket;
-    }
-
-    public ParkingTicket parkBySmartParkingBoy(SmartParkingBoy smartParkingBoy) {
-        ParkingTicket ticket = smartParkingBoy.park(car);
-        lastErrorMessage = smartParkingBoy.getLastErrorMessage();
-        return ticket;
-    }
-
-    public ParkingTicket parkBySuperSmartParkingBoy(SuperSmartParkingBoy superSmartParkingBoy) {
-        ParkingTicket ticket = superSmartParkingBoy.park(car);
-        lastErrorMessage = superSmartParkingBoy.getLastErrorMessage();
-        return ticket;
-    }
-
     public Car fetch(ParkingBoy parkingBoy, ParkingTicket ticket){
         Car car = parkingBoy.fetch(ticket);
         lastErrorMessage = parkingBoy.getLastErrorMessage();
         return car;
     }
 
-    public Car fetchByNewParkingBoy(NewParkingBoy newParkingBoy, ParkingTicket ticket){
+    // by newParkingBoy
+    public ParkingTicket park(NewParkingBoy newParkingBoy) {
+        ParkingTicket ticket = newParkingBoy.park(car);
+        lastErrorMessage = newParkingBoy.getLastErrorMessage();
+        return ticket;
+    }
+    public Car fetch(NewParkingBoy newParkingBoy, ParkingTicket ticket){
         Car car = newParkingBoy.fetch(ticket);
         lastErrorMessage = newParkingBoy.getLastErrorMessage();
         return car;
     }
 
-    public Car fetchBySmartParkingBoy(SmartParkingBoy smartParkingBoy, ParkingTicket ticket){
+    // by smartParkingBoy
+    public ParkingTicket park(SmartParkingBoy smartParkingBoy) {
+        ParkingTicket ticket = smartParkingBoy.park(car);
+        lastErrorMessage = smartParkingBoy.getLastErrorMessage();
+        return ticket;
+    }
+    public Car fetch(SmartParkingBoy smartParkingBoy, ParkingTicket ticket){
         Car car = smartParkingBoy.fetch(ticket);
         lastErrorMessage = smartParkingBoy.getLastErrorMessage();
         return car;
     }
 
-    public Car fetchBySuperSmartParkingBoy(SuperSmartParkingBoy superSmartParkingBoy, ParkingTicket ticket){
+    // by superSmartParkingBoy
+    public ParkingTicket park(SuperSmartParkingBoy superSmartParkingBoy) {
+        ParkingTicket ticket = superSmartParkingBoy.park(car);
+        lastErrorMessage = superSmartParkingBoy.getLastErrorMessage();
+        return ticket;
+    }
+    public Car fetch(SuperSmartParkingBoy superSmartParkingBoy, ParkingTicket ticket){
         Car car = superSmartParkingBoy.fetch(ticket);
         lastErrorMessage = superSmartParkingBoy.getLastErrorMessage();
         return car;
     }
 
-    public String getLastErrorMessage() {
-        return lastErrorMessage;
+    // by serviceManager
+    public ParkingTicket park(ServiceManager serviceManager) {
+        ParkingTicket ticket = serviceManager.parkForClient(car);
+        lastErrorMessage = serviceManager.getLastErrorMessage();
+        return ticket;
     }
+    public Car fetch(ServiceManager serviceManager, ParkingTicket ticket){
+        Car car = serviceManager.fetchForClient(ticket);
+        lastErrorMessage = serviceManager.getLastErrorMessage();
+        return car;
+    }
+
 }

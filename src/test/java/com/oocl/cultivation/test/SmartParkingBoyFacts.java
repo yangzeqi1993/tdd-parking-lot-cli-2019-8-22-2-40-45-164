@@ -202,8 +202,8 @@ class SmartParkingBoyFacts {
         List<ParkingLot> parkingLots =  Arrays.asList(parkingLot_1, parkingLot_2);
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
 
-        ParkingTicket ticket = client.parkBySmartParkingBoy(smartParkingBoy);
-        Car fetched = client.fetchBySmartParkingBoy(smartParkingBoy,ticket);
+        ParkingTicket ticket = client.park(smartParkingBoy);
+        Car fetched = client.fetch(smartParkingBoy,ticket);
 
         assertSame(fetched, car);
     }
@@ -221,11 +221,11 @@ class SmartParkingBoyFacts {
         List<ParkingLot> parkingLots =  Arrays.asList(parkingLot_1, parkingLot_2);
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
 
-        ParkingTicket ticket_1 = client_1.parkBySmartParkingBoy(smartParkingBoy);
-        Car fetched_1 = client_1.fetchBySmartParkingBoy(smartParkingBoy,ticket_1);
+        ParkingTicket ticket_1 = client_1.park(smartParkingBoy);
+        Car fetched_1 = client_1.fetch(smartParkingBoy,ticket_1);
 
-        ParkingTicket ticket_2 = client_2.parkBySmartParkingBoy(smartParkingBoy);
-        Car fetched_2 = client_2.fetchBySmartParkingBoy(smartParkingBoy,ticket_2);
+        ParkingTicket ticket_2 = client_2.park(smartParkingBoy);
+        Car fetched_2 = client_2.fetch(smartParkingBoy,ticket_2);
 
         assertSame(fetched_1, car_1);
         assertSame(fetched_2, car_2);
@@ -242,10 +242,10 @@ class SmartParkingBoyFacts {
 
         ParkingTicket wrongTicket = new ParkingTicket();
 
-        ParkingTicket ticket = client.parkBySmartParkingBoy(smartParkingBoy);
+        ParkingTicket ticket = client.park(smartParkingBoy);
 
-        assertNull(client.fetchBySmartParkingBoy(smartParkingBoy,wrongTicket));
-        assertSame(car, client.fetchBySmartParkingBoy(smartParkingBoy,ticket));
+        assertNull(client.fetch(smartParkingBoy,wrongTicket));
+        assertSame(car, client.fetch(smartParkingBoy,ticket));
     }
 
     @Test
@@ -258,7 +258,7 @@ class SmartParkingBoyFacts {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
         ParkingTicket wrongTicket = new ParkingTicket();
 
-        client.fetchBySmartParkingBoy(smartParkingBoy,wrongTicket);
+        client.fetch(smartParkingBoy,wrongTicket);
         String message = client.getLastErrorMessage();
 
         assertEquals("Unrecognized parking ticket.", message);
@@ -273,7 +273,7 @@ class SmartParkingBoyFacts {
         List<ParkingLot> parkingLots =  Arrays.asList(parkingLot_1, parkingLot_2);
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
 
-        client.fetchBySmartParkingBoy(smartParkingBoy,null);
+        client.fetch(smartParkingBoy,null);
         String message = client.getLastErrorMessage();
 
         assertEquals("Please provide your parking ticket.", message);
@@ -288,12 +288,12 @@ class SmartParkingBoyFacts {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
 
         Client client = new Client(new Car());
-        client.parkBySmartParkingBoy(smartParkingBoy);
+        client.park(smartParkingBoy);
         client.setCar(new Car());
-        client.parkBySmartParkingBoy(smartParkingBoy);
+        client.park(smartParkingBoy);
         client.setCar(new Car());
 
-        assertNull(client.parkBySmartParkingBoy(smartParkingBoy));
+        assertNull(client.park(smartParkingBoy));
     }
 
     @Test
@@ -305,11 +305,11 @@ class SmartParkingBoyFacts {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
 
         Client client = new Client(new Car());
-        client.parkBySmartParkingBoy(smartParkingBoy);
+        client.park(smartParkingBoy);
         client.setCar(new Car());
-        client.parkBySmartParkingBoy(smartParkingBoy);
+        client.park(smartParkingBoy);
         client.setCar(new Car());
-        client.parkBySmartParkingBoy(smartParkingBoy);
+        client.park(smartParkingBoy);
 
         assertEquals("The parking lot is full.", client.getLastErrorMessage());
     }
@@ -327,7 +327,7 @@ class SmartParkingBoyFacts {
 
         Client client = new Client(new Car());
         assertEquals(parkingLot_3,smartParkingBoy.chooseParkingLot());
-        client.parkBySmartParkingBoy(smartParkingBoy);
+        client.park(smartParkingBoy);
         assertEquals(2, parkingLot_3.getAvailableParkingPosition());
     }
 
@@ -343,11 +343,11 @@ class SmartParkingBoyFacts {
         SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots);
 
         Client client = new Client(new Car());
-        client.parkBySmartParkingBoy(smartParkingBoy);
+        client.park(smartParkingBoy);
 
         client.setCar(new Car());
         assertEquals(parkingLot_2,smartParkingBoy.chooseParkingLot());
-        client.parkBySmartParkingBoy(smartParkingBoy);
+        client.park(smartParkingBoy);
         assertEquals(1, parkingLot_2.getAvailableParkingPosition());
 
 

@@ -9,11 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NewParkingBoyFacts {
+
     @Test
     void should_park_a_car_to_a_parking_lot_and_get_it_back() {
         ParkingLot parkingLot_1 = new ParkingLot();
         ParkingLot parkingLot_2 = new ParkingLot();
-        List<ParkingLot> parkingLots =  Arrays.asList(parkingLot_1, parkingLot_2);
+        List<ParkingLot> parkingLots = Arrays.asList(parkingLot_1, parkingLot_2);
         NewParkingBoy newParkingBoy = new NewParkingBoy(parkingLots);
         Car car = new Car();
 
@@ -201,8 +202,8 @@ class NewParkingBoyFacts {
         List<ParkingLot> parkingLots =  Arrays.asList(parkingLot_1, parkingLot_2);
         NewParkingBoy newParkingBoy = new NewParkingBoy(parkingLots);
 
-        ParkingTicket ticket = client.parkByNewParkingBoy(newParkingBoy);
-        Car fetched = client.fetchByNewParkingBoy(newParkingBoy,ticket);
+        ParkingTicket ticket = client.park(newParkingBoy);
+        Car fetched = client.fetch(newParkingBoy,ticket);
 
         assertSame(fetched, car);
     }
@@ -220,11 +221,11 @@ class NewParkingBoyFacts {
         List<ParkingLot> parkingLots =  Arrays.asList(parkingLot_1, parkingLot_2);
         NewParkingBoy newParkingBoy = new NewParkingBoy(parkingLots);
 
-        ParkingTicket ticket_1 = client_1.parkByNewParkingBoy(newParkingBoy);
-        Car fetched_1 = client_1.fetchByNewParkingBoy(newParkingBoy,ticket_1);
+        ParkingTicket ticket_1 = client_1.park(newParkingBoy);
+        Car fetched_1 = client_1.fetch(newParkingBoy,ticket_1);
 
-        ParkingTicket ticket_2 = client_2.parkByNewParkingBoy(newParkingBoy);
-        Car fetched_2 = client_2.fetchByNewParkingBoy(newParkingBoy,ticket_2);
+        ParkingTicket ticket_2 = client_2.park(newParkingBoy);
+        Car fetched_2 = client_2.fetch(newParkingBoy,ticket_2);
 
         assertSame(fetched_1, car_1);
         assertSame(fetched_2, car_2);
@@ -241,10 +242,10 @@ class NewParkingBoyFacts {
 
         ParkingTicket wrongTicket = new ParkingTicket();
 
-        ParkingTicket ticket = client.parkByNewParkingBoy(newParkingBoy);
+        ParkingTicket ticket = client.park(newParkingBoy);
 
-        assertNull(client.fetchByNewParkingBoy(newParkingBoy,wrongTicket));
-        assertSame(car, client.fetchByNewParkingBoy(newParkingBoy,ticket));
+        assertNull(client.fetch(newParkingBoy,wrongTicket));
+        assertSame(car, client.fetch(newParkingBoy, ticket));
     }
 
     @Test
@@ -257,7 +258,7 @@ class NewParkingBoyFacts {
         NewParkingBoy newParkingBoy = new NewParkingBoy(parkingLots);
         ParkingTicket wrongTicket = new ParkingTicket();
 
-        client.fetchByNewParkingBoy(newParkingBoy,wrongTicket);
+        client.fetch(newParkingBoy,wrongTicket);
         String message = client.getLastErrorMessage();
 
         assertEquals("Unrecognized parking ticket.", message);
@@ -272,7 +273,7 @@ class NewParkingBoyFacts {
         List<ParkingLot> parkingLots =  Arrays.asList(parkingLot_1, parkingLot_2);
         NewParkingBoy newParkingBoy = new NewParkingBoy(parkingLots);
 
-        client.fetchByNewParkingBoy(newParkingBoy,null);
+        client.fetch(newParkingBoy,null);
         String message = client.getLastErrorMessage();
 
         assertEquals("Please provide your parking ticket.", message);
@@ -288,12 +289,12 @@ class NewParkingBoyFacts {
         NewParkingBoy newParkingBoy = new NewParkingBoy(parkingLots);
 
         Client client = new Client(new Car());
-        client.parkByNewParkingBoy(newParkingBoy);
+        client.park(newParkingBoy);
         client.setCar(new Car());
-        client.parkByNewParkingBoy(newParkingBoy);
+        client.park(newParkingBoy);
         client.setCar(new Car());
 
-        assertNull(client.parkByNewParkingBoy(newParkingBoy));
+        assertNull(client.park(newParkingBoy));
     }
 
     @Test
@@ -305,11 +306,11 @@ class NewParkingBoyFacts {
         NewParkingBoy newParkingBoy = new NewParkingBoy(parkingLots);
 
         Client client = new Client(new Car());
-        client.parkByNewParkingBoy(newParkingBoy);
+        client.park(newParkingBoy);
         client.setCar(new Car());
-        client.parkByNewParkingBoy(newParkingBoy);
+        client.park(newParkingBoy);
         client.setCar(new Car());
-        client.parkByNewParkingBoy(newParkingBoy);
+        client.park(newParkingBoy);
 
         assertEquals("The parking lot is full.", client.getLastErrorMessage());
     }
