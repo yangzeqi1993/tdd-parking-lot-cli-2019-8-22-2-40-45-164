@@ -265,4 +265,49 @@ class ServiceManagerFacts {
         assertEquals("The parking lot is full.", client.getLastErrorMessage());
     }
 
+    @Test
+    void should_a_client_park_and_fetch_car_by_a_service_manager_use_different_parking_boy_from_different_parking_lot() {
+        ParkingLot parkingLot_1 = new ParkingLot();
+        ParkingLot parkingLot_2 = new ParkingLot();
+        List<ParkingLot> parkingLots_1 =  new ArrayList<>();
+        parkingLots_1.add(parkingLot_1);
+        List<ParkingLot> parkingLots_2 =  new ArrayList<>();
+        parkingLots_2.add(parkingLot_2);
+
+        NewParkingBoy newParkingBoy = new NewParkingBoy(parkingLots_1);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots_2);
+        ServiceManager serviceManager = new ServiceManager(newParkingBoy,parkingLots_1);
+
+        Client client = new Client(new Car());
+        ParkingTicket ticket = client.park(serviceManager);
+
+
+        serviceManager.setSmartParkingBoy(smartParkingBoy);
+        Car fetchedCar= client.fetch(serviceManager,ticket);
+
+        assertNull(fetchedCar);
+        assertEquals("Unrecognized parking ticket.", client.getLastErrorMessage());
+    }
+
+    @Test
+    void should_a_client_park_and_fetch_car_by_a_service_manager_use_same_parking_boy_from_different_parking_lot() {
+        ParkingLot parkingLot_1 = new ParkingLot(0);
+        ParkingLot parkingLot_2 = new ParkingLot(5);
+        ParkingLot parkingLot_3 = new ParkingLot(2);
+        List<ParkingLot> parkingLots_1 =  Arrays.asList(parkingLot_1, parkingLot_2);
+        List<ParkingLot> parkingLots_2 =  Arrays.asList(parkingLot_2, parkingLot_3);
+
+        NewParkingBoy newParkingBoy = new NewParkingBoy(parkingLots_1);
+        SmartParkingBoy smartParkingBoy = new SmartParkingBoy(parkingLots_2);
+        ServiceManager serviceManager = new ServiceManager(newParkingBoy,parkingLots_1);
+
+        Car car = new Car();
+        Client client = new Client(car);
+        ParkingTicket ticket = client.park(serviceManager);
+
+        serviceManager.setSmartParkingBoy(smartParkingBoy);
+        Car fetchedCar= client.fetch(serviceManager,ticket);
+
+        assertSame(fetchedCar, car);
+    }
 }
