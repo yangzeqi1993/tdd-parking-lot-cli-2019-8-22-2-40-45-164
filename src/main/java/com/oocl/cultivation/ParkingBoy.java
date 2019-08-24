@@ -1,13 +1,13 @@
 package com.oocl.cultivation;
 
+import java.util.List;
+
 public class ParkingBoy {
 
-    private final ParkingLot parkingLot;
+    private ParkingLot parkingLot;
     private String lastErrorMessage;
 
-    public ParkingBoy(ParkingLot parkingLot) {
-        this.parkingLot = parkingLot;
-    }
+    public ParkingBoy(ParkingLot parkingLot) {this.parkingLot = parkingLot; }
 
     public ParkingTicket park(Car car) {
     	if (parkingLot.isExistCapacity()){
@@ -39,9 +39,5 @@ public class ParkingBoy {
     public String getLastErrorMessage() {
         return lastErrorMessage;
     }
-
-	private boolean isCanPark(Car car) {
-		return parkingLot.park(car) != null;
-	}
 
 }
