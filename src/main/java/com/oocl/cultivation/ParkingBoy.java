@@ -10,16 +10,38 @@ public class ParkingBoy {
     }
 
     public ParkingTicket park(Car car) {
-        // TODO: Please implement the method
-        throw new RuntimeException("Not implemented");
+    	if (parkingLot.isExistCapacity()){
+			lastErrorMessage = null;
+			return parkingLot.park(car);
+		}else {
+			lastErrorMessage = "The parking lot is full.";
+    		return null;
+		}
+
     }
 
     public Car fetch(ParkingTicket ticket) {
-        // TODO: Please implement the method
-        throw new RuntimeException("Not implemented");
+    	if(ticket != null) {
+        	if (!parkingLot.isExistCar(ticket)) {
+        		lastErrorMessage = "Unrecognized parking ticket.";
+        		return null;
+        	}else {
+        		lastErrorMessage = "";
+        		return parkingLot.fetch(ticket);
+        	}
+    	}else {
+    		lastErrorMessage = "Please provide your parking ticket.";
+			return null;
+		}
+
     }
 
     public String getLastErrorMessage() {
         return lastErrorMessage;
     }
+
+	private boolean isCanPark(Car car) {
+		return parkingLot.park(car) != null;
+	}
+
 }
